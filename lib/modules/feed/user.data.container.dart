@@ -8,7 +8,8 @@ import 'package:magadige/utils/index.dart';
 
 class UserDataContiner extends StatelessWidget {
   final String uid;
-  const UserDataContiner({super.key, required this.uid});
+  final VoidCallback? onTap;
+  const UserDataContiner({super.key, required this.uid, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +25,15 @@ class UserDataContiner extends StatelessWidget {
           }
           AppUser user = AppUser.fromDocumentSnapshot(snapshot.data!);
           return InkWell(
-            onTap: () {
-              if (user.id == FirebaseAuth.instance.currentUser?.uid) {
-                context.navigator(context, const ProfileView());
-              } else {
-                context.navigator(
-                    context, FriendProfileView(uid: uid, user: user));
-              }
-            },
+            onTap: onTap ??
+                () {
+                  if (user.id == FirebaseAuth.instance.currentUser?.uid) {
+                    context.navigator(context, const ProfileView());
+                  } else {
+                    context.navigator(
+                        context, FriendProfileView(uid: uid, user: user));
+                  }
+                },
             child: ListTile(
               leading: CircleAvatar(
                 backgroundImage: NetworkImage('${user.imageUrl}'),

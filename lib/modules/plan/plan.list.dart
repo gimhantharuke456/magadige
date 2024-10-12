@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:magadige/models/travel.location.model.dart';
 import 'package:magadige/models/travel.plan.dart'; // Assuming this is the location of your service file
+import 'package:magadige/modules/plan/create.plan.view.dart';
 import 'package:magadige/modules/plan/single.plan.view.dart';
 import 'package:magadige/utils/index.dart';
 
@@ -66,7 +67,7 @@ class PlanList extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Handle Create New Trip
+          context.navigator(context, const CreatePlanView());
         },
         backgroundColor: Colors.green,
         child: const Icon(Icons.add),

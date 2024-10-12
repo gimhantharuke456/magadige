@@ -9,6 +9,7 @@ import 'package:magadige/modules/home/all.categories.view.dart';
 import 'package:magadige/modules/home/all.locations.view.dart';
 
 import 'package:magadige/modules/home/single.loaction.view.dart';
+import 'package:magadige/modules/home/travel.location.service.dart';
 import 'package:magadige/modules/plan/create.plan.view.dart';
 import 'package:magadige/modules/profile/view.dart';
 import 'package:magadige/modules/shortcuts/all.shortcuts.view.dart';
@@ -147,23 +148,47 @@ class HomeWidget extends StatelessWidget {
               ),
             ),
           ),
-          SliverToBoxAdapter(
-            child: SizedBox(
-              height: 200.0,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: locations.length,
-                itemBuilder: (context, index) {
-                  final location = locations[index];
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: _MostVisitedCard(location: location),
-                  );
-                },
-              ),
-            ),
-          ),
+          StreamBuilder<List<TravelLocation>>(
+            stream: TravelLocationService().getTravelLocations(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return SliverToBoxAdapter(
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
 
+              if (snapshot.hasError) {
+                return SliverToBoxAdapter(
+                  child: Center(child: Text('Error: ${snapshot.error}')),
+                );
+              }
+
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return SliverToBoxAdapter(
+                  child: Center(child: Text('No locations available')),
+                );
+              }
+
+              final locations = snapshot.data!;
+
+              return SliverToBoxAdapter(
+                child: SizedBox(
+                  height: 200.0,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: locations.length,
+                    itemBuilder: (context, index) {
+                      final location = locations[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: _MostVisitedCard(location: location),
+                      );
+                    },
+                  ),
+                ),
+              );
+            },
+          ),
           // Shortcuts Section
           SliverToBoxAdapter(
             child: Padding(

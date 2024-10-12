@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:magadige/models/travel.location.model.dart';
 import 'package:magadige/models/travel.plan.dart';
+import 'package:magadige/modules/friends/friend.list.dart';
+import 'package:magadige/utils/index.dart';
 
 class SinglePlanView extends StatelessWidget {
   final TravelPlan plan;
@@ -97,6 +99,23 @@ class SinglePlanView extends StatelessWidget {
                 ),
                 child: const Text(
                   'View On Map',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 4,
+            ),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+                  context.navigator(context, const FriendList());
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                ),
+                child: const Text(
+                  'Invire friends',
                   style: TextStyle(color: Colors.white),
                 ),
               ),

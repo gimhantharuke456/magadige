@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:magadige/constants.dart';
 import 'package:magadige/modules/auth/login.dart';
 import 'package:magadige/modules/auth/service.dart';
+import 'package:magadige/modules/home/add.location.view.dart';
 import 'package:magadige/modules/plan/plan.list.dart';
 import 'package:magadige/utils/index.dart';
 
@@ -33,9 +34,9 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text('Upgrade Premium'),
+            title: Text('Add Location'),
             onTap: () {
-              // Handle upgrade premium
+              context.navigator(context, const AddLocationView());
             },
           ),
           ListTile(
